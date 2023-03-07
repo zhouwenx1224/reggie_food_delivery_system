@@ -51,3 +51,5 @@
 - Add to cart
 - Empty cart
 - Place an order
+
+### :scissors: Mobile(Front) and Management(Backend) Demo
