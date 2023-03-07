@@ -54,5 +54,12 @@
 
 ### :scissors: Mobile(Front) and Management(Backend) Demo
 
+![Image text](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/WX20230307-165128.png?raw=true)
+
+![Image text](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/WX20230307-165158.png?raw=true)
 
 ![Image text](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/b1.png?raw=true)
+
+![Image text](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/b2.png?raw=true)
+
+![Image text](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/b3.png?raw=true)
