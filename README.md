@@ -53,6 +53,7 @@
 - Place an order
 
 ### :scissors: Mobile(Front) and Management(Backend) Demo
+![Image text](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/Cart.png?raw=true)
 
 ![Image text](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/WX20230307-165128.png?raw=true)
 
