@@ -3,7 +3,7 @@
 ### :scissors: Backend System
 
 #### :bulb: Employee Management:
-<img style="float: right;" src="https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/Cart.png?raw=true">
+![image](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/Cart.png?raw=true){: style="float: left"}
 - Login, Logout
 - Add
 - Modify
