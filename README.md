@@ -1,7 +1,7 @@
 ## **_:mega:Reggie Food Delivery System_**
 
 ### :scissors: Backend System
-![image](https://github.com/zhouwenx1224/reggie_food_delivery_system/blob/master/Cart.png?raw=true){: style="float: right"}
+
 #### :bulb: Employee Management:
 - Login, Logout
 - Add
