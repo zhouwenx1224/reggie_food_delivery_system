@@ -1,6 +1,7 @@
 package com.itheima.reggie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itheima.reggie.common.R;
 import com.itheima.reggie.dto.SetmealDto;
@@ -94,6 +95,53 @@ public class SetmealController {
 
         List<Setmeal> list = setmealService.list(queryWrapper);
         return R.success(list);
+    }
+
+    @PostMapping("/status/{status}")
+    public R<String> status(@PathVariable String status, @RequestParam List<Long> ids) {
+        LambdaUpdateWrapper<Setmeal> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.in(Setmeal::getId, ids);
+        updateWrapper.set(Setmeal::getStatus, status);
+        setmealService.update(updateWrapper);
+        return R.success("批量操作成功");
+    }
+
+    @GetMapping("/{id}")
+    public R<SetmealDto> getById(@PathVariable Long id) {
+        Setmeal setmeal = setmealService.getById(id);
+        SetmealDto setmealDto = new SetmealDto();
+        //拷贝数据
+        BeanUtils.copyProperties(setmeal, setmealDto);
+        //条件构造器
+        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
+        //根据setmealId查询具体的setmealDish
+        queryWrapper.eq(SetmealDish::getSetmealId, id);
+        List<SetmealDish> setmealDishes = setmealDishService.list(queryWrapper);
+        //然后再设置属性
+        setmealDto.setSetmealDishes(setmealDishes);
+        //作为结果返回
+        return R.success(setmealDto);
+    }
+
+    @PutMapping
+    public R<Setmeal> updateWithDish(@RequestBody SetmealDto setmealDto) {
+        List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes();
+        Long setmealId = setmealDto.getId();
+        //先根据id把setmealDish表中对应套餐的数据删了
+        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SetmealDish::getSetmealId,setmealId);
+        setmealDishService.remove(queryWrapper);
+        //然后在重新添加
+        setmealDishes = setmealDishes.stream().map((item) ->{
+            //这属性没有，需要我们手动设置一下
+            item.setSetmealId(setmealId);
+            return item;
+        }).collect(Collectors.toList());
+        //更新套餐数据
+        setmealService.updateById(setmealDto);
+        //更新套餐对应菜品数据
+        setmealDishService.saveBatch(setmealDishes);
+        return R.success(setmealDto);
     }
 
 }

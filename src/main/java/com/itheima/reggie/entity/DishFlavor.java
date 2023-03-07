@@ -47,6 +47,7 @@ public class DishFlavor implements Serializable {
     private Long updateUser;
 
 
+    @TableField
     //是否删除
     private Integer isDeleted;
 

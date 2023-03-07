@@ -2,7 +2,9 @@ package com.itheima.reggie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.itheima.reggie.common.CustomException;
 import com.itheima.reggie.common.R;
 import com.itheima.reggie.dto.DishDto;
 import com.itheima.reggie.entity.Category;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -169,6 +172,31 @@ public class DishController {
         }).collect(Collectors.toList());
 
         return R.success(dishDtoList);
+    }
+
+    @PostMapping("/status/{status}")
+    public R<String> status(@PathVariable Integer status, @RequestParam List<Long> ids) {
+        log.info("status:{},ids:{}", status, ids);
+        LambdaUpdateWrapper<Dish> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.in(ids != null, Dish::getId, ids);
+        updateWrapper.set(Dish::getStatus, status);
+        dishService.update(updateWrapper);
+        return R.success("批量操作成功");
+    }
+
+    @DeleteMapping
+    public R<String> delete(@RequestParam List<Long> ids) {
+        log.info("删除的ids：{}", ids);
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(Dish::getId, ids);
+        List<Dish> dishes = dishService.list(queryWrapper);
+        for (Dish dish : dishes) {
+            if (dish.getStatus() == 1) {
+                throw new CustomException("删除列表中存在启售状态商品，无法删除");
+            }
+        }
+        dishService.remove(queryWrapper);
+        return R.success("删除成功");
     }
 
 }
